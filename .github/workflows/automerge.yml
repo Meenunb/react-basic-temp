@@ -1,27 +1,28 @@
-name: Node.js CI
+name: Jest Test on PR
+
 on:
   push:
     branches:
-    - master   
+      - master
 
 jobs:
-
-  Run-test-case:
-    if: github.event_name == 'push'
+  test:
     runs-on: ubuntu-latest
-       
+
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set Node.js 14.x
-        uses: actions/setup-node@v3
-        with: 
-          node-version: 14.x
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
 
-      - name: run unit test cases
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: test
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Run Jest tests
+      run: yarn test
 
   # Caster-NPM-Build:
   #   if: github.event_name == 'push'
